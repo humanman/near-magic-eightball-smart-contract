@@ -1,0 +1,9 @@
+# NODE
+/node_modules
+
+# COMPILE
+.wasm
+
+# ENV
+.env
+/credentials

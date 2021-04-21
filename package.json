@@ -1,0 +1,18 @@
+{
+  "name": "magic_eightball_smart_contract",
+  "version": "1.0.0",
+  "description": "simple magic 8 ball oracle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "humanman.near",
+  "license": "ISC",
+  "dependencies": {
+    "@assemblyscript/loader": "^0.18.27",
+    "dotenv": "^8.2.0",
+    "js-sha256": "^0.9.0",
+    "near-api-js": "^0.36.0",
+    "near-sdk-as": "^3.1.0"
+  }
+}
