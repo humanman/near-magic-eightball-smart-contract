@@ -1,12 +1,15 @@
 import {
+  // init,
+  Contract,
   answerMyQuestion,
   saveMyQuestion,
-  addNewAnswerToOracle
+  addNewAnswerToMagic8Ball
 } from '../index';
 import { logging, PersistentVector } from "near-sdk-as";
-import { answers } from '../model';
+// import { answers } from '../model';
 
-
+// const answers = init()
+const m8 = new Contract();
 describe('Answers tests', () => {
 
     // let answersList = new PersistentVector<answers>("av");
@@ -15,11 +18,12 @@ describe('Answers tests', () => {
     //   // expect(answer).toBeNaN();
     //   expect(answersList.length).toBe(20);
     // });
+    // const answers = init()
     
     it('answers have an index greater than 2', () => {
-      const answer = answerMyQuestion("Will I be a NEARionnaire?");
-      // expect(answer).toBeNaN();
-      expect(answer).toBe(answer);
+      const answer = m8.answerMyQuestion("Will I be a NEARionnaire?");
+    
+      // expect(answer).toBe(answer);
     });
 
    // it('adds a new answer', () => {

@@ -1,5 +1,5 @@
 import { context, logging, storage, RNG, PersistentVector } from 'near-sdk-as';
-import { MAXLEN , questions} from './model';
+import { MAXLEN , questions, init} from './model';
 
 /**
  * answerMyQuestion is a
@@ -9,52 +9,24 @@ import { MAXLEN , questions} from './model';
  *
  * - it has the side effect of appending to the log
  */
+
 export function answerMyQuestion(question: string): string {
   logging.log("answerMyQuestion() was called");
   // assert(question.length > 0, "Question can not be blank.");
   // check for What, When, Where, Why at beginning. 
   // instruct to ask yes/no question
   // assert(/^what|when|where|why/.test.question == "false");
-  let answers = new PersistentVector<string>("av");
-  // // let answers = new Array<string>(20);
+  
 
-  answers.push('As I see it, yes');
-  answers.push('Ask again later.');
-  answers.push('Better not tell you now.');
-  answers.push('Cannot predict now.');
-  answers.push('Concentrate and ask again.');
-  answers.push('Don\'t count on it.');
-  answers.push('It is certain.');
-  answers.push('It is decidedly so.');
-  answers.push('Most likely.');
-  answers.push('My reply is no.');
-  answers.push('My sources say no.');
-  answers.push('Outlook not so good.');
-  answers.push('Outlook good.');
-  answers.push('Reply hazy, try again.');
-  answers.push('Signs point to yes.');
-  answers.push('Very doubtful.');
-  answers.push('Without a doubt.');
-  answers.push('Yes.');
-  answers.push('Yes - definitely.');
-  answers.push('Yes may rely on it.');
-
-  const rng = new RNG<i32>(1, 20);
+  let answersList = init();
+  const rng = new RNG<u8>(1, 20);
   const rollIdx = rng.next();
-  logging.log(rollIdx);
+
   // const idx = _getAnswerIdx();
-  return answers[rollIdx];
+  return answersList[rollIdx];
 
 }
 
-export function getValue(): string | null {
-  return storage.getString("state");
-}
-
-export function setValue(value: string): void {
-  logging.log("Setting value to " + value);
-  storage.setString("state", value);
-}
 
 /**
  * saveMyQuestion is a
@@ -77,7 +49,7 @@ export function saveMyQuestion(question: string): boolean {
 }
 
 // TODO: make an owner-only call
-export function addNewAnswerToOracle(answer: string): void {
+export function addNewAnswerToMagic8Ball(answer: string): void {
   // check length
   // assert(answer.length > 0 && answer.length <= MAXLEN, "Submission must be more than 0 and fewer than " + MAXLEN + " characters long.")
 
@@ -110,4 +82,51 @@ function _random(): i32 {
   assert(rollIdx % 1 == 0, "Random number must be integer");
   logging.log(rollIdx);
   return rollIdx;
+}
+
+
+export class Contract {
+
+  constructor() {
+    this.init()
+  }
+
+  answers: PersistentVector<string> =  new PersistentVector<string>("av");
+
+  init(): void {
+    // this.answers = new PersistentVector<string>("av");
+    this.answers.push('As I see it, yes');
+    this.answers.push('Ask again later.');
+    this.answers.push('Better not tell you now.');
+    this.answers.push('Cannot predict now.');
+    this.answers.push('Concentrate and ask again.');
+    this.answers.push('Don\'t count on it.');
+    this.answers.push('It is certain.');
+    this.answers.push('It is decidedly so.');
+    this.answers.push('Most likely.');
+    this.answers.push('My reply is no.');
+    this.answers.push('My sources say no.');
+    this.answers.push('Outlook not so good.');
+    this.answers.push('Outlook good.');
+    this.answers.push('Reply hazy, try again.');
+    this.answers.push('Signs point to yes.');
+    this.answers.push('Very doubtful.');
+    this.answers.push('Without a doubt.');
+    this.answers.push('Yes.');
+    this.answers.push('Yes - definitely.');
+    this.answers.push('Yes may rely on it.');
+    // return av
+    log(this.answers);
+  }
+  
+  answerMyQuestion(question: string): string {
+    log("answerMyQuestion() was called");
+    log(this.answers[9])
+    const rng = new RNG<u8>(1, 20);
+    const rollIdx = rng.next();
+
+    // const idx = _getAnswerIdx();
+    return this.answers[rollIdx];
+
+  }
 }
