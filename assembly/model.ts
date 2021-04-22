@@ -1,10 +1,9 @@
 import { context, logging, storage, PersistentDeque, PersistentVector } from 'near-sdk-as';
 
 export const questions = new PersistentDeque<string>("questions");
-export const answers = new PersistentVector<string>("answers");
-
-
-// SEED QUESTIONS
+export const MAXLEN = 30;
+// export let answers = new PersistentVector<string>("av");
+export let answers = new Array<string>(20);
 
 answers.push('As I see it, yes');
 answers.push('Ask again later.');
@@ -26,3 +25,5 @@ answers.push('Without a doubt.');
 answers.push('Yes.');
 answers.push('Yes - definitely.');
 answers.push('Yes may rely on it.');
+
+// SEED QUESTIONS

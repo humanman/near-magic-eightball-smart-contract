@@ -7,3 +7,6 @@
 # ENV
 .env
 /credentials
+near_deploy_magic_eight
+contract.wasm
+execute.js

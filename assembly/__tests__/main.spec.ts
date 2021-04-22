@@ -3,17 +3,17 @@ import {
   saveMyQuestion,
   addNewAnswerToOracle
 } from '../index';
-import { logging } from "near-sdk-as";
+import { logging, PersistentVector } from "near-sdk-as";
 import { answers } from '../model';
 
 
 describe('Answers tests', () => {
 
-    
+    // let answersList = new PersistentVector<answers>("av");
     // it('answers has been seeded', () => {
     
     //   // expect(answer).toBeNaN();
-    //   expect(answers.length).toBe(20);
+    //   expect(answersList.length).toBe(20);
     // });
     
     it('answers have an index greater than 2', () => {

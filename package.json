@@ -4,7 +4,9 @@
   "description": "simple magic 8 ball oracle",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "asb",
+    "build:debug": "asb --target debug",
+    "test": "asp --nologo"
   },
   "author": "humanman.near",
   "license": "ISC",
@@ -12,7 +14,10 @@
     "@assemblyscript/loader": "^0.18.27",
     "dotenv": "^8.2.0",
     "js-sha256": "^0.9.0",
-    "near-api-js": "^0.36.0",
+    "near-api-js": "^0.36.3",
     "near-sdk-as": "^3.1.0"
+  },
+  "devDependencies": {
+    "@as-pect/cli": "^6.0.0"
   }
 }
