@@ -22,15 +22,14 @@ export class Contract {
   // ------------------------------------------------------------------
   answerMyQuestion(question: string): string {
     logging.log("answerMyQuestion() was called");
-    // assert(question.length > 0, "Question can not be blank.");
+    assert(question.length > 0, "Question can not be blank.");
+    // TODO: implement RegEx when AS does :/
     // check for What, When, Where, Why at beginning.
-    // instruct to ask yes/no question
-    // assert(/^what|when|where|why/.test.question == "false");
-    // // let answers = new Array<string>(20);
-    const rng = new RNG<u8>(1, 20);
+    // const regexp: RegExp = /^what|when|where|why/i;
+    // assert(regexp.test(question) == false, "Please ask Yes or No questions only.");
+    const rng = new RNG<u8>(1, this.answers.length);
     const rollIdx = rng.next();
-    // const idx = _getAnswerIdx();
-    logging.log(rollIdx)
+    logging.log(rollIdx);
     return this.answers[rollIdx];
   }
 
@@ -54,17 +53,16 @@ export class Contract {
     return true;
   }
 
-  // TODO: make an owner-only call
-  addNewAnswerToMagic8Ball(answer: string): void {
+  addNewAnswerToMagic8Ball(answerToAdd: string): void {
     // check length
-    assert(answer.length > 0 && answer.length <= MAXLEN, `Submission must be more than 0 and fewer than ${MAXLEN.toString()} characters long.`)
+    assert(answerToAdd.length > 0 && answerToAdd.length <= MAXLEN, `Submission must be more than 0 and fewer than ${MAXLEN.toString()} characters long.`)
 
     // TODO: check for special characters e.g. Ben's ...
     // should be new answer
-    const formattedAnswer = answer.substring(0, 1).toUpperCase() + answer.substring(1).toLowerCase();
-    log(formattedAnswer);
-    assert(this._vectorHasContents(this.answers, formattedAnswer) == false, "That answer already exists!")
-    this.answers.push(answer);
+    const formattedAnswerToAdd = answerToAdd.substring(0, 1).toUpperCase() + answerToAdd.substring(1).toLowerCase();
+    logging.log(formattedAnswerToAdd);
+    assert(this._vectorHasContents(this.answers, formattedAnswerToAdd) == false, "That answer already exists!")
+    this.answers.push(formattedAnswerToAdd);
   }
 
   // ------------------------------------------------------------------
@@ -108,71 +106,3 @@ export class Contract {
   }
 }
 
-
-export const m8 = new Contract();
-
-// export function answerMyQuestion(question: string): string {
-//   logging.log("answerMyQuestion() was called");
-//   // assert(question.length > 0, "Question can not be blank.");
-//   // check for What, When, Where, Why at beginning.
-//   // instruct to ask yes/no question
-//   // assert(/^what|when|where|why/.test.question == "false");
-//   // // let answers = new Array<string>(20);
-//   const rng = new RNG<u8>(1, 20);
-//   const rollIdx = rng.next();
-//   // const idx = _getAnswerIdx();
-//   logging.log(rollIdx)
-//   return answers[rollIdx];
-
-// }
-
-// export function getValue(): string | null {
-//   return storage.getString("state");
-// }
-
-// export function setValue(value: string): void {
-//   logging.log("Setting value to " + value);
-//   storage.setString("state", value);
-// }
-
-
-
-
-
-// PRIVATE
-
-// simply - er - I mean magically calls random idx of answers set
-// function _retrieveAnswer(): string {
-//   const idx = _getAnswerIdx();
-//   return answers[idx]
-// }
-
-// function _getAnswerIdx(): i32 {
-//   const idx = _random();
-//   return idx;
-// }
-
-// Using RNG module from near-sdk to handle Math.random
-// function _random(): i32 {
-//   const rng = new RNG<i32>(0, 20);
-//   const rollIdx = rng.next();
-//   // assert(rollIdx % 1 == 0 && rollIdx >= 0 && rollIdx < 20, "Random number out of range of answers set");
-//   assert(rollIdx % 1 == 0, "Random number must be integer");
-//   logging.log(rollIdx);
-//   return rollIdx;
-// }
-function _vectorHasContents(
-  vector: PersistentVector<string>,
-  expectedContents: Array<string>
-): bool {
-  if (vector.length != expectedContents.length) {
-    return false;
-  }
-  for (let i = 0; i < expectedContents.length; i++) {
-    if (expectedContents[i] != vector[i]) {
-      // return false;
-      logging.log("wrong" + expectedContents[i] + "," + vector[i]);
-    }
-  }
-  return true;
-}

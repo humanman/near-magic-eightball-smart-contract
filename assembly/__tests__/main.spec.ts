@@ -1,18 +1,26 @@
-import {
-  // init,
-  m8,
-  Contract,
-  // answerMyQuestion,
-  // saveMyQuestion,
-  // addNewAnswerToMagic8Ball
-} from '../index';
+import { Contract } from '../index';
 import { logging, PersistentVector } from "near-sdk-as";
 import { MAXLEN } from '../model';
 
-// const answers = init()
+describe('Questions tests', () => {
+
+  it('Throws AssertionError is string is empty', () => {
+    expect(() => {
+      const mag8 = new Contract();
+      mag8.answerMyQuestion("");
+    }).toThrow();
+  });
+
+// TODO: Implement RegEx when AS does
+  // it('Throws AssertionError is string contains who|what|when|where|why', () => {
+  //   expect(() => {
+  //     const mag8 = new Contract();
+  //     mag8.answerMyQuestion("Why do birds suddenly appear every time you are NEAR?");
+  //   }).toThrow();
+  // });
+})
 
 describe('Answers tests', () => {
-
 
   it('String of some length should return', () => {
     const mag8 = new Contract()
@@ -24,7 +32,7 @@ describe('Answers tests', () => {
     const mag8 = new Contract();
     mag8.addNewAnswerToMagic8Ball('not with that attitude.');
     expect(mag8.answers.length).toBe(21);
-    log(mag8.answers);
+    logging.log(mag8.answers);
   });
 
 
@@ -51,40 +59,9 @@ describe('Answers tests', () => {
     expect(() => {
       const mag8 = new Contract();
       mag8.addNewAnswerToMagic8Ball('Outlook good.');
-      log(mag8.answers);
+      logging.log(mag8.answers);
     }).toThrow();
     
   });
 
-  // let answersList = new PersistentVector<answers>("av");
-  // it('answers has been seeded', () => {
-
-  //   // expect(answer).toBeNaN();
-  //   expect(answersList.length).toBe(20);
-  // });
-    // const m8 = new Contract();
 });
-
-// const theMeaningOfLife = 42;
-
-// describe("a test group", () => {
-//   test("the meaning of life", () => {
-//     expect(theMeaningOfLife).toBe(42);
-//   });
-// });
-
-function _vectorHasContents(
-  vector: PersistentVector<string>,
-  expectedContents: Array<string>
-): bool {
-  if (vector.length != expectedContents.length) {
-    return false;
-  }
-  for (let i = 0; i < expectedContents.length; i++) {
-    if (expectedContents[i] != vector[i]) {
-      // return false;
-      logging.log("wrong" + expectedContents[i] + "," + vector[i]);
-    }
-  }
-  return true;
-}
