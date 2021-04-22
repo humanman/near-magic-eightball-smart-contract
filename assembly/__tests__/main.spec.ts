@@ -12,26 +12,26 @@ import { logging, PersistentVector } from "near-sdk-as";
 const m8 = new Contract();
 describe('Answers tests', () => {
 
-    // let answersList = new PersistentVector<answers>("av");
-    // it('answers has been seeded', () => {
-    
-    //   // expect(answer).toBeNaN();
-    //   expect(answersList.length).toBe(20);
-    // });
-    // const answers = init()
-    
-    it('answers have an index greater than 2', () => {
-      const answer = m8.answerMyQuestion("Will I be a NEARionnaire?");
-    
-      // expect(answer).toBe(answer);
-    });
+  // let answersList = new PersistentVector<answers>("av");
+  // it('answers has been seeded', () => {
 
-   // it('adds a new answer', () => {
-   //    const previousAnswersListSize = answers.length;
-   //    const newAnswer = addNewAnswerToOracle("Not a chance.");
-   //    expect(newAnswer).toBeNaN();
-   //    expect(answers.length >= previousAnswersListSize);
-   // });
+  //   // expect(answer).toBeNaN();
+  //   expect(answersList.length).toBe(20);
+  // });
+
+  it('answers have an index greater than 2', () => {
+    const answer = answerMyQuestion("Will I be a NEARionnaire?");
+    // expect(answer).toBeNaN();
+    log(answer)
+    expect(answer).toBe(answer);
+  });
+
+  // it('adds a new answer', () => {
+  //    const previousAnswersListSize = answers.length;
+  //    const newAnswer = addNewAnswerToOracle("Not a chance.");
+  //    expect(newAnswer).toBeNaN();
+  //    expect(answers.length >= previousAnswersListSize);
+  // });
 
 });
 
