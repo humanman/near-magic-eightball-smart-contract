@@ -1,5 +1,5 @@
 import { context, logging, storage, RNG, PersistentVector } from 'near-sdk-as';
-import { MAXLEN , questions} from './model';
+import { MAXLEN, questions } from './model';
 
 /**
  * answerMyQuestion is a
@@ -9,15 +9,10 @@ import { MAXLEN , questions} from './model';
  *
  * - it has the side effect of appending to the log
  */
-export function answerMyQuestion(question: string): string {
-  logging.log("answerMyQuestion() was called");
-  // assert(question.length > 0, "Question can not be blank.");
-  // check for What, When, Where, Why at beginning. 
-  // instruct to ask yes/no question
-  // assert(/^what|when|where|why/.test.question == "false");
-  let answers = new PersistentVector<string>("av");
-  // // let answers = new Array<string>(20);
 
+const answers = new PersistentVector<string>("av");
+
+export function init(): void {
   answers.push('As I see it, yes');
   answers.push('Ask again later.');
   answers.push('Better not tell you now.');
@@ -38,11 +33,19 @@ export function answerMyQuestion(question: string): string {
   answers.push('Yes.');
   answers.push('Yes - definitely.');
   answers.push('Yes may rely on it.');
+}
 
-  const rng = new RNG<i32>(1, 20);
+export function answerMyQuestion(question: string): string {
+  logging.log("answerMyQuestion() was called");
+  // assert(question.length > 0, "Question can not be blank.");
+  // check for What, When, Where, Why at beginning.
+  // instruct to ask yes/no question
+  // assert(/^what|when|where|why/.test.question == "false");
+  // // let answers = new Array<string>(20);
+  const rng = new RNG<u8>(1, 20);
   const rollIdx = rng.next();
-  logging.log(rollIdx);
   // const idx = _getAnswerIdx();
+  logging.log(rollIdx)
   return answers[rollIdx];
 
 }
@@ -89,7 +92,7 @@ export function addNewAnswerToOracle(answer: string): void {
 }
 
 
-// PRIVATE 
+// PRIVATE
 
 // simply - er - I mean magically calls random idx of answers set
 function _retrieveAnswer(): string {
