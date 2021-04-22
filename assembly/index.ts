@@ -12,10 +12,11 @@ import { MAXLEN, questions } from './model';
 
 @nearBindgen
 export class Contract {
-  constructor(public value: string) {
+  constructor() {
     this._init()
   }
-
+  
+  answers: PersistentVector<string> = new PersistentVector<string>('av');
   // ------------------------------------------------------------------
   // CHANGE methods
   // ------------------------------------------------------------------
@@ -30,7 +31,7 @@ export class Contract {
     const rollIdx = rng.next();
     // const idx = _getAnswerIdx();
     logging.log(rollIdx)
-    return answers[rollIdx];
+    return this.answers[rollIdx];
   }
 
   /**
@@ -56,45 +57,59 @@ export class Contract {
   // TODO: make an owner-only call
   addNewAnswerToMagic8Ball(answer: string): void {
     // check length
-    // assert(answer.length > 0 && answer.length <= MAXLEN, "Submission must be more than 0 and fewer than " + MAXLEN + " characters long.")
+    assert(answer.length > 0 && answer.length <= MAXLEN, `Submission must be more than 0 and fewer than ${MAXLEN.toString()} characters long.`)
 
     // TODO: check for special characters e.g. Ben's ...
     // should be new answer
     const formattedAnswer = answer.substring(0, 1).toUpperCase() + answer.substring(1).toLowerCase();
-    // assert(answers.indexof(formattedAnswer) == -1, "That answer already exists!")
-    // answers.push(answer);
+    log(formattedAnswer);
+    assert(this._vectorHasContents(this.answers, formattedAnswer) == false, "That answer already exists!")
+    this.answers.push(answer);
   }
 
   // ------------------------------------------------------------------
   // private methods
   // ------------------------------------------------------------------
   private _init(): void {
-    answers.push('As I see it, yes');
-    answers.push('Ask again later.');
-    answers.push('Better not tell you now.');
-    answers.push('Cannot predict now.');
-    answers.push('Concentrate and ask again.');
-    answers.push('Don\'t count on it.');
-    answers.push('It is certain.');
-    answers.push('It is decidedly so.');
-    answers.push('Most likely.');
-    answers.push('My reply is no.');
-    answers.push('My sources say no.');
-    answers.push('Outlook not so good.');
-    answers.push('Outlook good.');
-    answers.push('Reply hazy, try again.');
-    answers.push('Signs point to yes.');
-    answers.push('Very doubtful.');
-    answers.push('Without a doubt.');
-    answers.push('Yes.');
-    answers.push('Yes - definitely.');
-    answers.push('Yes may rely on it.');
+    // this.answers = new PersistentVector<string>('av');
+    this.answers.push('As I see it, yes');
+    this.answers.push('Ask again later.');
+    this.answers.push('Better not tell you now.');
+    this.answers.push('Cannot predict now.');
+    this.answers.push('Concentrate and ask again.');
+    this.answers.push('Don\'t count on it.');
+    this.answers.push('It is certain.');
+    this.answers.push('It is decidedly so.');
+    this.answers.push('Most likely.');
+    this.answers.push('My reply is no.');
+    this.answers.push('My sources say no.');
+    this.answers.push('Outlook not so good.');
+    this.answers.push('Outlook good.');
+    this.answers.push('Reply hazy, try again.');
+    this.answers.push('Signs point to yes.');
+    this.answers.push('Very doubtful.');
+    this.answers.push('Without a doubt.');
+    this.answers.push('Yes.');
+    this.answers.push('Yes - definitely.');
+    this.answers.push('Yes may rely on it.');
   }
-
+   
+  private _vectorHasContents(
+    vector: PersistentVector<string>,
+    target: string
+  ): bool {
+    if (vector.length == 0) {
+      return false;
+    }
+    for (let i = 0; i < vector.length; i++) {
+      if (vector[i] == target) return true
+    }
+    return false;
+  }
 }
 
 
-const answers = new PersistentVector<string>("av");
+export const m8 = new Contract();
 
 // export function answerMyQuestion(question: string): string {
 //   logging.log("answerMyQuestion() was called");
@@ -146,3 +161,18 @@ const answers = new PersistentVector<string>("av");
 //   logging.log(rollIdx);
 //   return rollIdx;
 // }
+function _vectorHasContents(
+  vector: PersistentVector<string>,
+  expectedContents: Array<string>
+): bool {
+  if (vector.length != expectedContents.length) {
+    return false;
+  }
+  for (let i = 0; i < expectedContents.length; i++) {
+    if (expectedContents[i] != vector[i]) {
+      // return false;
+      logging.log("wrong" + expectedContents[i] + "," + vector[i]);
+    }
+  }
+  return true;
+}

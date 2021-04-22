@@ -1,16 +1,60 @@
 import {
   // init,
+  m8,
   Contract,
-  answerMyQuestion,
-  saveMyQuestion,
-  addNewAnswerToMagic8Ball
+  // answerMyQuestion,
+  // saveMyQuestion,
+  // addNewAnswerToMagic8Ball
 } from '../index';
 import { logging, PersistentVector } from "near-sdk-as";
-// import { answers } from '../model';
+import { MAXLEN } from '../model';
 
 // const answers = init()
-const m8 = new Contract();
+
 describe('Answers tests', () => {
+
+
+  it('String of some length should return', () => {
+    const mag8 = new Contract()
+    const answer = mag8.answerMyQuestion("Will I be a NEARionnaire?");
+    expect(answer.length > 0).toBe(true);
+  });
+
+  it('Successfully adds new string', () => {
+    const mag8 = new Contract();
+    mag8.addNewAnswerToMagic8Ball('not with that attitude.');
+    expect(mag8.answers.length).toBe(21);
+    log(mag8.answers);
+  });
+
+
+  it('Throws and AssertionError if string is too short', () => {
+    
+    expect(() => {
+      const mag8 = new Contract();
+      mag8.addNewAnswerToMagic8Ball('');
+    }).toThrow();
+    
+  });
+
+  it('Throws and AssertionError if string is too long', () => {
+
+     expect(() => {
+      const mag8 = new Contract();
+      mag8.addNewAnswerToMagic8Ball('new answer that is longer than maximum allowed characters which should be around 30')
+    }).toThrow();
+
+  });
+
+  it('Throws and AssertionError if list already contains string', () => {
+    
+    expect(() => {
+      const mag8 = new Contract();
+      mag8.addNewAnswerToMagic8Ball('Outlook good.');
+      log(mag8.answers);
+    }).toThrow();
+    
+  });
 
   // let answersList = new PersistentVector<answers>("av");
   // it('answers has been seeded', () => {
@@ -18,21 +62,7 @@ describe('Answers tests', () => {
   //   // expect(answer).toBeNaN();
   //   expect(answersList.length).toBe(20);
   // });
-
-  it('answers have an index greater than 2', () => {
-    const answer = answerMyQuestion("Will I be a NEARionnaire?");
-    // expect(answer).toBeNaN();
-    log(answer)
-    expect(answer).toBe(answer);
-  });
-
-  // it('adds a new answer', () => {
-  //    const previousAnswersListSize = answers.length;
-  //    const newAnswer = addNewAnswerToOracle("Not a chance.");
-  //    expect(newAnswer).toBeNaN();
-  //    expect(answers.length >= previousAnswersListSize);
-  // });
-
+    // const m8 = new Contract();
 });
 
 // const theMeaningOfLife = 42;
