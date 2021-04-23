@@ -11,6 +11,8 @@ import { MAXLEN, questions } from './model';
  */
 
   const answers: PersistentVector<string> = new PersistentVector<string>('av');
+  // seed Vector
+  _init();
   // ------------------------------------------------------------------
   // CHANGE methods
   // ------------------------------------------------------------------
@@ -39,9 +41,7 @@ import { MAXLEN, questions } from './model';
   //  TODO: ideally this saves a record of the transaction (question / answer), but that may already be on the chain rendering this method redundant
   export function saveMyQuestion(question: string): boolean {
     logging.log("saveMyQuestion() was called");
-
-    // assert(message.length > 0, "Message can not be blank.");
-
+    assert(question.length > 0, "Message can not be blank.");
     questions.pushFront(context.sender + " asks " + question);
 
     return true;
@@ -50,13 +50,14 @@ import { MAXLEN, questions } from './model';
   export function addNewAnswerToMagic8Ball(answerToAdd: string): void {
     logging.log(answerToAdd);
     // check length
-    assert(answerToAdd.length > 0 && answerToAdd.length <= MAXLEN, `Submission must be more than 0 and fewer than ${MAXLEN.toString()} characters long.`)
+    assert(answerToAdd.length > 0 && answerToAdd.length <= MAXLEN, `Submission must be more than 0 and fewer than ${MAXLEN.toString()} characters long.`);
 
     // TODO: check for special characters e.g. Ben's ...
-    // should be new answer
-    const formattedAnswerToAdd = answerToAdd.substring(0, 1).toUpperCase() + answerToAdd.substring(1).toLowerCase();
+    // should be new answer, but this cost $$$$ in gas
+    const lastChar = answerToAdd.substr(-1) == '.' ? answerToAdd.substr(-1) : '.';
+    const formattedAnswerToAdd = answerToAdd.substr(0, 1).toUpperCase() + answerToAdd.substr(1, answerToAdd.length - 1).toLowerCase() + lastChar;
     logging.log(formattedAnswerToAdd);
-    assert(this._vectorHasContents(answers, formattedAnswerToAdd) == false, "That answer already exists!")
+    assert(!_vectorHasContents(answers, formattedAnswerToAdd), "That answer already exists!");
     answers.push(formattedAnswerToAdd);
   }
 
@@ -95,7 +96,7 @@ import { MAXLEN, questions } from './model';
       return false;
     }
     for (let i = 0; i < vector.length; i++) {
-      if (vector[i] == target) return true
+      if (vector[i] == target) return true;
     }
     return false;
   }

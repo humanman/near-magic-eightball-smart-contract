@@ -1,3 +1,9 @@
+// *************************************************************** //
+// BELOW CODE CAND BE FOUND FROM the figment tutorial on NEAR
+
+// https://learn.figment.io/network-documentation/near/tutorials/intro-pathway-write-and-deploy-your-first-near-smart-contract/5.-writing-and-deploying-your-first-near-smart-contract
+// *************************************************************** //
+
 // Load environment variables
 require("dotenv").config();
 
@@ -35,8 +41,8 @@ async function main() {
   // // Construct a new contract object, we'll be using it to perform calls
   const contract = new near.Contract(account, contractName, {
     // viewMethods: [""],   // TODO: add methods to list answers + previously asked questions
-    changeMethods: ["answerMyQuestion","addNewAnswerToMagic8Ball"], // our write function
-    sender: options.accountId,   // account used to sign contract call transactions
+    changeMethods: ["answerMyQuestion","addNewAnswerToMagic8Ball", "seedAnswers"], // our write function
+    sender: options.accountId   // account used to sign contract call transactions
   });
  
 
@@ -48,7 +54,7 @@ async function main() {
 
   // // Log magic8Ball's response
   console.log("ResultAsked:", result);
-  // const newAnswer = "Hmm... I'm not sure about that."
+  const newAnswer = "Hmm... I'm not sure about that."
   // const newItem = await contract.addNewAnswerToMagic8Ball({ answerToAdd: "I am not sure about that." });
   // console.log("ResultAdded:", newItem);
 };
