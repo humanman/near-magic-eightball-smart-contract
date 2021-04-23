@@ -11,3 +11,4 @@ near_deploy_magic_eight
 contract.wasm
 
 /neardev
+build/release/magic_eightball_smart_contract.wat
