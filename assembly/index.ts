@@ -1,5 +1,31 @@
 import { context, logging, storage, RNG, PersistentVector, PersistentSet } from 'near-sdk-as';
-import { init, MAXLEN,answersSet, answersVector, sessionStorage, historySet, Session} from './model';
+import { init, MAXLEN,answersSet, answersVector, sessionStorage, historyVector, Session} from './model';
+
+
+// -- view methods:
+
+// get all the possible answers magic 8 ball currently has
+export function getPossibleAnswers(): Array<string> {
+  const len = answersVector.length ;
+  const resultList: Array<string> = [];
+  for(let i = 0; i < len; i++) {
+    resultList[i] = answersVector[i];
+  }
+  return resultList;
+}
+
+//  get all the question/answers previous users have saved
+export function getHistory(): Array<Session> {
+  const len = historyVector.length ;
+  const resultList: Array<Session> = [];
+  for(let i = 0; i < len; i++) {
+    resultList[i] = historyVector[i];
+  }
+  return resultList;
+}
+
+
+// -- change methods:
 
 // init helper to avoid duplicates
 function checkForInit(): void {
@@ -8,8 +34,6 @@ function checkForInit(): void {
 
 // must be commented out if running tests or they will fail
 // checkForInit();
-
-// -- change methods:
 
 /**
  * answerMyQuestion is a
@@ -38,18 +62,24 @@ export function answerMyQuestion(question: string): string {
   * saveMyQuestion is a
   * - "change" function (ie. alters state)
   * - that takes no parameters
-  * - saves the sender account name and message to contract state
-  * - and returns nothing
+  * - saves the last question and answer from storage
+  * - and returns true
   *
-  * - it has the side effect of appending to the log
   */
-export function saveMyQuestion(question: string): boolean {
+export function saveMyQuestion(): boolean {
   logging.log("saveMyQuestion() was called");
-  assert(question.length > 0, "Message can not be blank.");
-  historySet.add(sessionStorage.pop());
+  log(sessionStorage.length)
+  historyVector.push(sessionStorage.pop());
   return true;
 }
 
+/**
+  * addNewAnswerToMagic8Ball is a
+  * - "change" function (ie. alters state)
+  * - that takes string parameter ( new magic 8 ball answer )
+  * - adds the new answer (if unique) to the answersSet and answersVector (formatted differently for each)
+  * - and returns nothing
+  */
 export function addNewAnswerToMagic8Ball(answerToAdd: string): void {
   logging.log(answerToAdd);
   // check length

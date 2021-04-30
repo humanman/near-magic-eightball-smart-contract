@@ -1,5 +1,5 @@
-import {answerMyQuestion, addNewAnswerToMagic8Ball} from '../index';
-import {init, answersSet, answersVector, sessionStorage, historySet, MAXLEN} from '../model';
+import {answerMyQuestion, addNewAnswerToMagic8Ball, getHistory, getPossibleAnswers, saveMyQuestion} from '../index';
+import {init, answersSet, answersVector, sessionStorage, historyVector, MAXLEN} from '../model';
 import { logging, PersistentVector, PersistentSet } from "near-sdk-as";
 
 describe('answerMyQuestion tests', () => {
@@ -52,4 +52,34 @@ describe('addNewAnswerToMagic8Ball tests', () => {
     
   });
 
+});
+
+describe('saveMyQuestion tests', () => {
+
+  it('saves new question and answer to storage', () => {
+    init();
+    const questionToSave = "Will this test pass?";
+    answerMyQuestion(questionToSave);
+    saveMyQuestion();
+    expect(historyVector.last.q).toBe(questionToSave);
+  });
+
+  it('shows lists of previous questions', () => {
+    init();
+    const questionToSave = "Will this show up in history";
+    answerMyQuestion(questionToSave);
+    saveMyQuestion();
+    const list = getHistory();
+    expect(list[list.length -1].q).toBe(questionToSave);
+  });
+
+});
+
+describe('view answers tests', () => {
+
+  it('retrieves list of magic 8 answers ', () => {
+    init();
+    const list = getPossibleAnswers();
+    expect(list.length).toBe(20);
+  });
 });
