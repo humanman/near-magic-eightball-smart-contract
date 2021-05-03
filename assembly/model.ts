@@ -1,6 +1,6 @@
 import { PersistentSet, PersistentVector } from 'near-sdk-as';
 
-export const MAXLEN = 30;
+export const MAXLEN = 40;
 
 /** 
  * Exporting a classes for managing storage of our 8-ball answers, and submissions.
@@ -22,7 +22,7 @@ export const answersVector: PersistentVector<string> = new PersistentVector<stri
 // Set for adding answers
 export const answersSet: PersistentSet<string> = new PersistentSet<string>('as');
 
-export const sessionStorage: Array<Session> = [];
+export const sessionStorage: PersistentVector<Session> = new PersistentVector<Session>('sv');
 export const historyVector: PersistentVector<Session>  = new PersistentVector<Session>('hs');
 
 

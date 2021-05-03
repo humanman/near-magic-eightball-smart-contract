@@ -2,6 +2,9 @@ import {answerMyQuestion, addNewAnswerToMagic8Ball, getHistory, getPossibleAnswe
 import {init, answersSet, answersVector, sessionStorage, historyVector, MAXLEN} from '../model';
 import { logging, PersistentVector, PersistentSet } from "near-sdk-as";
 
+// use `logging.log()` to log to terminal
+// use `log()` to log in testing blocks
+
 describe('answerMyQuestion tests', () => {
 
   it('Throws AssertionError if string is empty', () => {
@@ -13,7 +16,6 @@ describe('answerMyQuestion tests', () => {
   it('String of some length should return', () => {
     init();
     const answer = answerMyQuestion("Will I be a NEARionnaire?");
-    log(answer);
     expect(answer.length > 0).toBe(true);
   });
 
@@ -25,7 +27,6 @@ describe('addNewAnswerToMagic8Ball tests', () => {
     init();
     addNewAnswerToMagic8Ball('not with that attitude.');
     expect(answersVector.length).toBe(21);
-    log(answersVector.last);
   });
 
   it('Throws and AssertionError if string is too short', () => {

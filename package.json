@@ -6,7 +6,8 @@
   "scripts": {
     "build": "asb",
     "build:debug": "asb --target debug",
-    "test": "asp --nologo"
+    "test": "asp --nologo",
+    "dev": "yarn build:debug && near dev-deploy"
   },
   "author": "humanman.near",
   "license": "ISC",
