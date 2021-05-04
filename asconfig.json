@@ -1,7 +1,5 @@
 {
-  "extends": "near-sdk-as/asconfig.json",
-  "options": {
-    "measure": true,
-    "binaryFile": "out/main.wasm"
-  }
+  "workspaces": [
+    "contracts/magic-eight-ball"
+  ]
 }

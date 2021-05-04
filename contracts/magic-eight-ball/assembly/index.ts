@@ -1,6 +1,19 @@
 import { context, logging, storage, RNG, PersistentVector, PersistentSet } from 'near-sdk-as';
-import { init, MAXLEN, answersSet, answersVector, sessionStorage, historyVector, Session } from './model';
+import { init, MAXLEN, answersSet, answersVector, sessionStorage, historyVector, Session, answers } from './model';
 
+
+if (!storage.get("initialized")) {
+  init()
+}
+
+export function init(): void {
+  answers.split("\n").forEach(answer => {
+    answersVector.push(answer)
+    answersSet.add(_removeCharfromString(answer))
+  })
+
+  storage.set('initialized', true)
+}
 
 
 // init helper to avoid duplicates
@@ -15,23 +28,13 @@ checkForInit();
 // -- view methods:
 
 // get all the possible answers magic 8 ball currently has
-export function getPossibleAnswers(): Array<string> {
-  const len = answersVector.length;
-  const resultList: Array<string> = [];
-  for (let i = 0; i < len; i++) {
-    resultList[i] = answersVector[i];
-  }
-  return resultList;
+export function getPossibleAnswers(max: u32 = 10): Array<string> {
+  return answersVector.get_last(10);
 }
 
 //  get all the question/answers previous users have saved
 export function getHistory(): Array<Session> {
-  const len = historyVector.length;
-  const resultList: Array<Session> = [];
-  for (let i = 0; i < len; i++) {
-    resultList[i] = historyVector[i];
-  }
-  return resultList;
+  return historyVector.get_last(10);
 }
 
 
@@ -45,14 +48,18 @@ export function getHistory(): Array<Session> {
  *
  * - it has the side effect of appending to the log
  */
-export function answerMyQuestion(question: string): string {
+export function answerMyQuestion(question: string, save: bool = false): string {
   logging.log('answerMyQuestion() called');
   assert(question.length > 0, "Question can not be blank.");
   const rng = new RNG<u8>(1, answersVector.length);
   const rollIdx = rng.next();
   const obj = new Session(question, answersVector[rollIdx]);
   // const obj = objInit.init();
-  sessionStorage.push(obj);
+  // sessionStorage.push(obj);
+  if (save) {
+    historyVector.push(obj);
+  }
+
   logging.log(`class ${sessionStorage.last.q}`);
   const answ = answersVector[rollIdx];
   return answ;
@@ -66,13 +73,13 @@ export function answerMyQuestion(question: string): string {
   * - and returns true
   *
   */
-export function saveMyQuestion(): boolean {
-  logging.log("saveMyQuestion() was called");
-  const lastSession = sessionStorage.pop();
-  logging.log(lastSession.a);
-  historyVector.push(lastSession);
-  return true;
-}
+// export function saveMyQuestion(): boolean {
+//   logging.log("saveMyQuestion() was called");
+//   const lastSession = sessionStorage.pop();
+//   logging.log(lastSession.a);
+//   historyVector.push(lastSession);
+//   return true;
+// }
 
 /**
   * addNewAnswerToMagic8Ball is a

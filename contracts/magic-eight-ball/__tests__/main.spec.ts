@@ -1,5 +1,5 @@
-import {answerMyQuestion, addNewAnswerToMagic8Ball, getHistory, getPossibleAnswers, saveMyQuestion} from '../index';
-import {init, answersSet, answersVector, sessionStorage, historyVector, MAXLEN} from '../model';
+import { answerMyQuestion, addNewAnswerToMagic8Ball, getHistory, getPossibleAnswers, saveMyQuestion } from '../assembly/index';
+import { init, answersSet, answersVector, sessionStorage, historyVector, MAXLEN } from '../assembly/model';
 import { logging, PersistentVector, PersistentSet } from "near-sdk-as";
 
 // use `logging.log()` to log to terminal
@@ -30,16 +30,16 @@ describe('addNewAnswerToMagic8Ball tests', () => {
   });
 
   it('Throws and AssertionError if string is too short', () => {
-    
+
     expect(() => {
       addNewAnswerToMagic8Ball('');
     }).toThrow();
-    
+
   });
 
   it('Throws AssertionError if string is too long', () => {
 
-     expect(() => {
+    expect(() => {
       addNewAnswerToMagic8Ball('new answer that is longer than maximum allowed characters which should be around 30')
     }).toThrow();
 
@@ -50,7 +50,7 @@ describe('addNewAnswerToMagic8Ball tests', () => {
     expect(() => {
       addNewAnswerToMagic8Ball('Outlook good.');
     }).toThrow();
-    
+
   });
 
 });
@@ -71,7 +71,7 @@ describe('saveMyQuestion tests', () => {
     answerMyQuestion(questionToSave);
     saveMyQuestion();
     const list = getHistory();
-    expect(list[list.length -1].q).toBe(questionToSave);
+    expect(list[list.length - 1].q).toBe(questionToSave);
   });
 
 });
