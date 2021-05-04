@@ -2,7 +2,7 @@ import { PersistentSet, PersistentVector } from 'near-sdk-as';
 
 export const MAXLEN = 40;
 
-/** 
+/**
  * Exporting a classes for managing storage of our 8-ball answers, and submissions.
  */
 
@@ -23,7 +23,7 @@ export const answersVector: PersistentVector<string> = new PersistentVector<stri
 export const answersSet: PersistentSet<string> = new PersistentSet<string>('as');
 
 export const sessionStorage: PersistentVector<Session> = new PersistentVector<Session>('sv');
-export const historyVector: PersistentVector<Session>  = new PersistentVector<Session>('hs');
+export const historyVector: PersistentVector<Session> = new PersistentVector<Session>('hs');
 
 
 // Seeder
@@ -48,8 +48,8 @@ export function init(): void {
   answersVector.push('Yes.');
   answersVector.push('Yes - definitely.');
   answersVector.push('Yes may rely on it.');
-    
-    // for adding answers
+
+  // for adding answers
   answersSet.add('asiseeityes');
   answersSet.add('Ask again later.');
   answersSet.add('Better not tell you now.');
@@ -71,4 +71,3 @@ export function init(): void {
   answersSet.add('Yes - definitely.');
   answersSet.add('Yes may rely on it.');
 }
-
