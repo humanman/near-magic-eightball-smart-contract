@@ -1,24 +1,47 @@
 import { context, logging, storage, RNG, PersistentVector, PersistentSet } from 'near-sdk-as';
-import { init, MAXLEN,answersSet, answersVector, sessionStorage, historyVector, Session} from './model';
+import { init as initt, MAXLEN, answersSet, answersVector, sessionStorage, historyVector, Session } from './model';
 
 
+@nearBindgen
+export class Contract {
+  constructor() {
+    initt()
+  }
 
-// init helper to avoid duplicates
-function checkForInit(): void {
-  if (answersVector.length == 0) init()
+  getPossibleAnswers(): Array<string> {
+    const len = answersVector.length;
+    const resultList: Array<string> = [];
+    for (let i = 0; i < len; i++) {
+      resultList[i] = answersVector[i];
+    }
+    return resultList;
+  }
+
+  getHistory(): Array<Session> {
+    return []
+  }
+
+  answerMyQuestion(question: string): string {
+    return ''
+  }
+
+  saveMyQuestion(): boolean {
+    return false
+  }
+
+  addNewAnswerToMagic8Ball(answerToAdd: string): string {
+    return ''
+  }
+
 }
-
-// must be commented out if running tests or they will fail
-checkForInit();
-
 
 // -- view methods:
 
 // get all the possible answers magic 8 ball currently has
 export function getPossibleAnswers(): Array<string> {
-  const len = answersVector.length ;
+  const len = answersVector.length;
   const resultList: Array<string> = [];
-  for(let i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     resultList[i] = answersVector[i];
   }
   return resultList;
@@ -26,9 +49,9 @@ export function getPossibleAnswers(): Array<string> {
 
 //  get all the question/answers previous users have saved
 export function getHistory(): Array<Session> {
-  const len = historyVector.length ;
+  const len = historyVector.length;
   const resultList: Array<Session> = [];
-  for(let i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     resultList[i] = historyVector[i];
   }
   return resultList;
@@ -50,7 +73,7 @@ export function answerMyQuestion(question: string): string {
   assert(question.length > 0, "Question can not be blank.");
   const rng = new RNG<u8>(1, answersVector.length);
   const rollIdx = rng.next();
-  const obj = new Session(question , answersVector[rollIdx]);
+  const obj = new Session(question, answersVector[rollIdx]);
   // const obj = objInit.init();
   sessionStorage.push(obj);
   logging.log(`class ${sessionStorage.last.q}`);
@@ -98,7 +121,7 @@ export function addNewAnswerToMagic8Ball(answerToAdd: string): string {
 
 
 // -- private methods
- 
+
 // workaround for RegEx until it's native in AS
 function _removeCharfromString(str: string): string {
   return str.toLowerCase().split('.').join('').split("'").join('').split('"').join('').split(',').join('').split('-').join('').split(' ').join('');
