@@ -1,7 +1,7 @@
 import { context, logging, storage, RNG, PersistentVector, PersistentSet } from 'near-sdk-as';
 import { init, MAXLEN,answersSet, answersVector, sessionStorage, historyVector, Session} from './model';
 
-
+logging.log('contract running');
 
 // init helper to avoid duplicates
 function checkForInit(): void {
@@ -45,6 +45,7 @@ export function getHistory(): Array<Session> {
  *
  * - it has the side effect of appending to the log
  */
+//  TODO: add bool flag to save question
 export function answerMyQuestion(question: string): string {
   logging.log('answerMyQuestion() called');
   assert(question.length > 0, "Question can not be blank.");
