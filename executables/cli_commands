@@ -1,16 +1,17 @@
 
+/* use `--initFunction new --initArgs '{}'` flag for first deploy only
+
 near deploy \
   --contractName=magic-eightball.testnet \
   --keyPath=./credentials/testnet/magic-eightball.testnet.json \
-  --wasmFile=.out/main.wasm
+  --wasmFile=out/main.wasm \
+  --initFunction new --initArgs '{}'
 
 
 near call magic-eightball.testnet addNewAnswerToMagic8Ball "{ \"answerToAdd\": \"hmm... I dunno\" }" --gas=300000000000000 --accountId magic-eightball.testnet
 
-near call magic-eightball.testnet answerMyQuestion "{ \"question\": \"Will I be rich?\" }" --gas=300000000000000 --accountId magic-eightball.testnet
-
-near call magic-eightball.testnet saveMyQuestion --gas=300000000000000 --accountId magic-eightball.testnet
+near call magic-eightball.testnet answerMyQuestion "{ \"question\": \"Will I be rich?\", \"save\": true }" --gas=300000000000000 --accountId magic-eightball.testnet
 
 near call magic-eightball.testnet getPossibleAnswers --gas=300000000000000 --accountId magic-eightball.testnet
 
-near call magic-eightball.testnet getHistory --gas=300000000000000 --accountId magic-eightball.testnet
+near view magic-eightball.testnet getHistory 

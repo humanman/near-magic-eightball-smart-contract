@@ -19,6 +19,7 @@
     "near-sdk-as": "^3.1.0"
   },
   "devDependencies": {
-    "@as-pect/cli": "^6.0.0"
+    "@as-pect/cli": "^6.0.0",
+    "assemblyscript": "^0.18.31"
   }
 }

@@ -16,7 +16,8 @@
         "near-sdk-as": "^3.1.0"
       },
       "devDependencies": {
-        "@as-pect/cli": "^6.0.0"
+        "@as-pect/cli": "^6.0.0",
+        "assemblyscript": "^0.18.31"
       }
     },
     "node_modules/@as-pect/assembly": {
@@ -210,9 +211,9 @@
       }
     },
     "node_modules/assemblyscript": {
-      "version": "0.18.27",
-      "resolved": "https://registry.npmjs.org/assemblyscript/-/assemblyscript-0.18.27.tgz",
-      "integrity": "sha512-2lCqioV9UAhFCWulFr/1HtCrAhIjjZXXrCO2bzQfddkgqc0wh5j30lx4dXunVisH11Zr8Bx7Rwi9kSEE3hiqyg==",
+      "version": "0.18.31",
+      "resolved": "https://registry.npmjs.org/assemblyscript/-/assemblyscript-0.18.31.tgz",
+      "integrity": "sha512-4MtKf1nnmY0eh+v4PKVnIjT8HPTRBqJqACW3kXQoDztyFBLHN1WxGSgZ9iPsLbm/6xKNYD0l6j9y03PoMv+Qog==",
       "dependencies": {
         "binaryen": "100.0.0-nightly.20210413",
         "long": "^4.0.0"
@@ -1309,9 +1310,9 @@
       }
     },
     "assemblyscript": {
-      "version": "0.18.27",
-      "resolved": "https://registry.npmjs.org/assemblyscript/-/assemblyscript-0.18.27.tgz",
-      "integrity": "sha512-2lCqioV9UAhFCWulFr/1HtCrAhIjjZXXrCO2bzQfddkgqc0wh5j30lx4dXunVisH11Zr8Bx7Rwi9kSEE3hiqyg==",
+      "version": "0.18.31",
+      "resolved": "https://registry.npmjs.org/assemblyscript/-/assemblyscript-0.18.31.tgz",
+      "integrity": "sha512-4MtKf1nnmY0eh+v4PKVnIjT8HPTRBqJqACW3kXQoDztyFBLHN1WxGSgZ9iPsLbm/6xKNYD0l6j9y03PoMv+Qog==",
       "requires": {
         "binaryen": "100.0.0-nightly.20210413",
         "long": "^4.0.0"

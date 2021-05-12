@@ -1,5 +1,5 @@
 // *************************************************************** //
-// BELOW CODE CAND BE FOUND FROM the figment tutorial on NEAR
+// BELOW CODE CAN BE FOUND FROM the figment tutorial on NEAR
 
 // https://learn.figment.io/network-documentation/near/tutorials/intro-pathway-write-and-deploy-your-first-near-smart-contract/5.-writing-and-deploying-your-first-near-smart-contract
 // *************************************************************** //
@@ -35,7 +35,7 @@ async function main() {
   const client = await near.connect(options);
   const account = await client.account(options.accountId);
 
-  // // We'are using the same contract name, feel free to create a different one.
+  // // We're using the same contract name, feel free to create a different one.
   const contractName = options.accountId;
 
   // // Construct a new contract object, we'll be using it to perform calls

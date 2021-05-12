@@ -1,54 +1,53 @@
-import {answerMyQuestion, addNewAnswerToMagic8Ball, getHistory, getPossibleAnswers, saveMyQuestion} from '../index';
-import {init, answersSet, answersVector, sessionStorage, historyVector, MAXLEN} from '../model';
-import { logging, PersistentVector, PersistentSet } from "near-sdk-as";
+import { Magic8Ball } from '../index';
+import { answersSet, answersVector, historyVector, MAXLEN } from '../model';
 
 // use `logging.log()` to log to terminal
 // use `log()` to log in testing blocks
+let m8: Magic8Ball;
+beforeEach(() => {
+  m8 = new Magic8Ball();
+})
 
 describe('answerMyQuestion tests', () => {
 
   it('Throws AssertionError if string is empty', () => {
     expect(() => {
-      answerMyQuestion("");
+      m8.answerMyQuestion("");
     }).toThrow();
   });
 
   it('String of some length should return', () => {
-    init();
-    const answer = answerMyQuestion("Will I be a NEARionnaire?");
+    const answer = m8.answerMyQuestion("Will I be a NEARionnaire?");
     expect(answer.length > 0).toBe(true);
   });
 
-})
+});
 
 describe('addNewAnswerToMagic8Ball tests', () => {
 
   it('Successfully adds new string', () => {
-    init();
-    addNewAnswerToMagic8Ball('not with that attitude.');
+    m8.addNewAnswerToMagic8Ball('not with that attitude.');
     expect(answersVector.length).toBe(21);
   });
 
   it('Throws and AssertionError if string is too short', () => {
-    
     expect(() => {
-      addNewAnswerToMagic8Ball('');
+      m8.addNewAnswerToMagic8Ball('');
     }).toThrow();
     
   });
 
   it('Throws AssertionError if string is too long', () => {
-
      expect(() => {
-      addNewAnswerToMagic8Ball('new answer that is longer than maximum allowed characters which should be around 30')
+      m8.addNewAnswerToMagic8Ball('new answer that is longer than maximum allowed characters which should be around 30')
     }).toThrow();
 
   });
 
   it('Throws AssertionError if list already contains string', () => {
-    init();
     expect(() => {
-      addNewAnswerToMagic8Ball('Outlook good.');
+      const formatted = m8.addNewAnswerToMagic8Ball('Outlook good.');
+      log(formatted)
     }).toThrow();
     
   });
@@ -58,19 +57,15 @@ describe('addNewAnswerToMagic8Ball tests', () => {
 describe('saveMyQuestion tests', () => {
 
   it('saves new question and answer to storage', () => {
-    init();
     const questionToSave = "Will this test pass?";
-    answerMyQuestion(questionToSave);
-    saveMyQuestion();
+    m8.answerMyQuestion(questionToSave, true);
     expect(historyVector.last.q).toBe(questionToSave);
   });
 
   it('shows lists of previous questions', () => {
-    init();
     const questionToSave = "Will this show up in history";
-    answerMyQuestion(questionToSave);
-    saveMyQuestion();
-    const list = getHistory();
+    m8.answerMyQuestion(questionToSave, true);
+    const list = m8.getHistory();
     expect(list[list.length -1].q).toBe(questionToSave);
   });
 
@@ -79,8 +74,7 @@ describe('saveMyQuestion tests', () => {
 describe('view answers tests', () => {
 
   it('retrieves list of magic 8 answers ', () => {
-    init();
-    const list = getPossibleAnswers();
+    const list = m8.getPossibleAnswers();
     expect(list.length).toBe(20);
   });
 });
