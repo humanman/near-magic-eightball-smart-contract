@@ -15,5 +15,5 @@ contract.wasm
 /neardev
 build/release/magic_eightball_smart_contract.wat
 
-.vscode/*
+.vscode
 .vscode/settings.json
